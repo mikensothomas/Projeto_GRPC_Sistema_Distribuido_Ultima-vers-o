@@ -63,7 +63,7 @@ def main():
             print("Esperando o outro jogador escolher a categoria e o item...")
             message_event.wait()  # Espera até que o outro jogador escolha a categoria e o item
             
-            for _ in range(7):  # Permite até 5 perguntas
+            for _ in range(1):  # Permite até 5 perguntas
                 question = input("Faça sua pergunta (ou 'sair' para sair): ")
                 if question.lower() == 'sair':
                     break

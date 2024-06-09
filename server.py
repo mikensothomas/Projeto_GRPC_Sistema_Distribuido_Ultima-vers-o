@@ -1,9 +1,9 @@
-from concurrent import futures
+from concurrent import futures #execução assíncrona
 import grpc
 import messenger_pb2
 import messenger_pb2_grpc
-from queue import Queue
-import threading
+from queue import Queue #Éusada para armazenar mensagens recebidas.
+import threading #aceitar múltiplas conexões de clientes ao mesmo tempo
 
 class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
     def __init__(self):
@@ -129,8 +129,8 @@ class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
 
 def serve():
     global server
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    messenger_pb2_grpc.add_MessengerServicer_to_server(MessengerServicer(), server)
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10)) # Criar um servidor grpc
+    messenger_pb2_grpc.add_MessengerServicer_to_server(MessengerServicer(), server) #Este comando registra a classe MessengerServicer
     server.add_insecure_port('127.0.0.1:50051')
     server.start()
     print("Servidor conectado na porta 50051")
