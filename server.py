@@ -6,12 +6,12 @@ from queue import Queue #Éusada para armazenar mensagens recebidas.
 import threading #aceitar múltiplas conexões de clientes ao mesmo tempo
 
 class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
-    def __init__(self):
+    def __init__(self): #self refere-se à instância da classe que está sendo criada.
         self.clients = {}
         self.categories = {
-            "1": "aparelho eletrônico",
-            "2": "veículo terrestre",
-            "3": "animal"
+            "1": "aparelhos eletrônicos",
+            "2": "veículos terrestres",
+            "3": "animais"
         }
         self.player_categories = {}
         self.player_choices = {}
@@ -23,30 +23,30 @@ class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
         if not self.game_active:
             return messenger_pb2.ConnectionStatus(connected=False)
         
-        client_name = request.name
-        self.clients[client_name] = context
-        self.message_queues[client_name] = Queue()
-        self.scores[client_name] = 0
+        client_name = request.name #Obtendo o Nome do Cliente
+        self.clients[client_name] = context #Registrando o Cliente
+        self.message_queues[client_name] = Queue() #Criando uma Fila de Mensagens para o Cliente
+        self.scores[client_name] = 0 #Inicializando a Pontuação do Cliente:
         print(f"Cliente {client_name} conectado.")
         return messenger_pb2.ConnectionStatus(connected=True)
 
     def ShowMenu(self, request, context):
-        menu = "Escolha a categoria de palavras:\n"
-        for key, category in self.categories.items():
+        menu = "Escolha uma categoria:\n"
+        for key, category in self.categories.items(): #Para cada categoria, concatena a chave e o valor ao menu, formatando-os em uma string.
             menu += f"{key}) {category}\n"
-        return messenger_pb2.Menu(menu=menu)
+        return messenger_pb2.Menu(menu=menu) #Retornando o Menu para o Cliente
 
     def ChooseCategory(self, request, context):
         if not self.game_active:
-            return messenger_pb2.Empty()
+            return messenger_pb2.Empty() #retorna uma mensagem vazia 
         
-        client_name = request.name
-        choice = request.choice
-        if choice in self.categories:
+        client_name = request.name #Obtendo o Nome do Cliente
+        choice = request.choice  #Obtendo a escolha do Cliente
+        if choice in self.categories:  #Verifica se a escolha do cliente está entre as categorias disponíveis.
             category = self.categories[choice]
-            self.player_categories[client_name] = category
+            self.player_categories[client_name] = category #Armazenando a Categoria Escolhida pelo Cliente
             print(f"Cliente {client_name} escolheu a categoria: {category}")
-            for other_client in self.clients:
+            for other_client in self.clients: #Para cada outro cliente, adiciona uma mensagem à sua fila de mensagens.
                 if other_client != client_name:
                     self.message_queues[other_client].put(messenger_pb2.Message(
                         sender=client_name,
@@ -134,7 +134,7 @@ def serve():
     server.add_insecure_port('127.0.0.1:50051')
     server.start()
     print("Servidor conectado na porta 50051")
-    server.wait_for_termination()
+    server.wait_for_termination() #Mantém o servidor em execução indefinidamente até que seja explicitamente parado.
 
 if __name__ == '__main__':
     serve()

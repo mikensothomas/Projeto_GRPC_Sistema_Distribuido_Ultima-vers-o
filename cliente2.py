@@ -53,7 +53,7 @@ def main():
         print(f"{client_name} conectado ao servidor!")
         
         # Define quem vai começar fazendo perguntas
-        is_questioner = input("Você vai fazer advinhar a palavra? (sim/não): ").strip().lower() == 'sim'
+        is_questioner = input("Você vai advinhar a palavra? (sim/não): ").strip().lower() == 'sim'
         
         message_event = threading.Event()
         question_event = threading.Event()
