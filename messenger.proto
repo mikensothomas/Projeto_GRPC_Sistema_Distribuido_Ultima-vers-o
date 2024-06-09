@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+service Messenger {
+    rpc Connect (ClientInfo) returns (ConnectionStatus);
+    rpc SendMessage (Message) returns (Empty);
+    rpc ReceiveMessages (ClientInfo) returns (stream Message);
+    rpc ShowMenu (Empty) returns (Menu);
+    rpc ChooseCategory (CategoryChoice) returns (Empty);
+    rpc ChooseItem (ItemChoice) returns (Empty);
+}
+
+message ClientInfo {
+    string name = 1;
+}
+
+message ConnectionStatus {
+    bool connected = 1;
+}
+
+message Message {
+    string sender = 1;
+    string receiver = 2;
+    string content = 3;
+}
+
+message Empty {}
+
+message Menu {
+    string menu = 1;
+}
+
+message CategoryChoice {
+    string name = 1;
+    string choice = 2;
+}
+
+message ItemChoice {
+    string name = 1;
+    string item = 2;
+}

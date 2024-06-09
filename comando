@@ -1,0 +1,7 @@
+# python3 -m venv venv
+
+# source venv/bin/activate
+
+# python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. messenger.proto
+
+# pip install grpcio grpcio-tools
