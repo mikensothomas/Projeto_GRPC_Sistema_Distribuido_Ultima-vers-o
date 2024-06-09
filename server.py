@@ -63,7 +63,7 @@ class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
         client_name = request.name
         item = request.item
         self.player_choices[client_name] = item
-        print(f"Cliente {client_name} escolheu o item: {item}")
+        print(f"Cliente {client_name} escolheu o item: {item}") #para o servidor
         for other_client in self.clients:
             if other_client != client_name:
                 self.message_queues[other_client].put(messenger_pb2.Message(
@@ -76,10 +76,10 @@ class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
         if not self.game_active:
             return messenger_pb2.Empty()
         
-        receiver = request.receiver
-        sender = request.sender
+        receiver = request.receiver #responde as perguntas
+        sender = request.sender #Fazer as perguntas
         content = request.content
-        if receiver in self.clients:
+        if receiver in self.clients: #Verifica se o destinatário está na lista de clientes conectados.
             if content.startswith("Tentativa de adivinhação: "):
                 guess = content[len("Tentativa de adivinhação: "):]
                 correct_item = self.player_choices.get(receiver, "")
