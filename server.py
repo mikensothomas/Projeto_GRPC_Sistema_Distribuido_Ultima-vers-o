@@ -80,11 +80,11 @@ class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
         sender = request.sender #Fazer as perguntas
         content = request.content
         if receiver in self.clients: #Verifica se o destinatário está na lista de clientes conectados.
-            if content.startswith("Tentativa de adivinhação: "):
+            if content.startswith("Tentativa de adivinhação: "): #Verifica se o conteúdo da mensagem começa com a string indicativa de uma tentativa de adivinhação.
                 guess = content[len("Tentativa de adivinhação: "):]
                 correct_item = self.player_choices.get(receiver, "")
                 if guess == correct_item:
-                    self.scores[sender] += 1
+                    #self.scores[sender] += 1
                     result_message = f"{sender} adivinhou corretamente! Ele(a) venceu e o {receiver} perdeu."
                 else:
                     result_message = f"{sender} adivinhou incorretamente ele perdeu e o {receiver} venceu."
