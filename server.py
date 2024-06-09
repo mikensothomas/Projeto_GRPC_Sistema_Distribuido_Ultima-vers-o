@@ -45,7 +45,7 @@ class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
         if choice in self.categories:  #Verifica se a escolha do cliente está entre as categorias disponíveis.
             category = self.categories[choice]
             self.player_categories[client_name] = category #Armazenando a Categoria Escolhida pelo Cliente
-            print(f"Cliente {client_name} escolheu a categoria: {category}")
+            print(f"Cliente {client_name} escolheu a categoria: {category}") #para o servidor
             for other_client in self.clients: #Para cada outro cliente, adiciona uma mensagem à sua fila de mensagens.
                 if other_client != client_name:
                     self.message_queues[other_client].put(messenger_pb2.Message(
