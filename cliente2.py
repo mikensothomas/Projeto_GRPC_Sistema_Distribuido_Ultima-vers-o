@@ -5,7 +5,7 @@ import threading
 
 def connect(server_address, client_name):
     channel = grpc.insecure_channel(server_address)
-    stub = messenger_pb2_grpc.MessengerStub(channel)
+    stub = messenger_pb2_grpc.MessengerStub(channel) #stub. Um stub é uma representação do servidor com o qual estamos nos comunicando.
     response = stub.Connect(messenger_pb2.ClientInfo(name=client_name))
     return response.connected, stub
 
@@ -22,9 +22,12 @@ def choose_item(stub, client_name, item):
 def send_message(stub, sender, receiver, content):
     stub.SendMessage(messenger_pb2.Message(sender=sender, receiver=receiver, content=content))
 
+#stub permite para comunicação com o servidor
+#message_event: Um evento para sinalizar quando uma mensagem é recebida.
+#question_event: Um evento para sinalizar quando uma pergunta é feita.
 def receive_messages(stub, client_name, is_questioner, message_event, question_event):
     for message in stub.ReceiveMessages(messenger_pb2.ClientInfo(name=client_name)):
-        if "Categoria escolhida" in message.content:
+        if "Categoria escolhida" in message.content: #verifica se a substring "Categoria escolhida" está presente no conteúdo da mensagem recebida message
             print(f"\n{message.content}")
             if not is_questioner:
                 item = input("Escolha um item da categoria: ")
@@ -69,7 +72,7 @@ def main():
                     break
                 receiver = input("Digite o nome do destinatário: ")
                 send_message(stub, client_name, receiver, question)
-                question_event.clear()
+                question_event.clear() # Reseta o evento antes de esperar pela próxima pergunta
                 question_event.wait()  # Espera até que a resposta seja recebida
                 
             # Tentativa de adivinhar o item escolhido pelo outro jogador
