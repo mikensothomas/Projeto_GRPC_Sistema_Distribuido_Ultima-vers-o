@@ -131,7 +131,7 @@ def serve():
     global server
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10)) # Criar um servidor grpc
     messenger_pb2_grpc.add_MessengerServicer_to_server(MessengerServicer(), server) #Este comando registra a classe MessengerServicer
-    server.add_insecure_port('172.30.3.23:50051')
+    server.add_insecure_port('localhost:50051')
     server.start()
     print("Servidor conectado na porta 50051")
     server.wait_for_termination() #Mantém o servidor em execução indefinidamente até que seja explicitamente parado.
