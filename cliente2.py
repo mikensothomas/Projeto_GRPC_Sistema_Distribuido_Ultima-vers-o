@@ -87,7 +87,7 @@ def main():
             print("Esperando perguntas do outro jogador...")
         
     else:
-        print("Falha ao conectar ao servidor.")
+        print("Falha ao conectar ao servidor.")#####
 
 if __name__ == '__main__':
     main()
