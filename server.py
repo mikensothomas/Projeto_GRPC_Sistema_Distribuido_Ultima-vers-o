@@ -16,7 +16,7 @@ class MessengerServicer(messenger_pb2_grpc.MessengerServicer):
         self.player_categories = {}
         self.player_choices = {}
         self.message_queues = {}
-        self.scores = {}
+        #self.scores = {}
         self.game_active = True
 
     def Connect(self, request, context):
